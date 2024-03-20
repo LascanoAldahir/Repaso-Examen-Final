@@ -1,4 +1,5 @@
 import {Router} from 'express'
+import { validacionUsuario } from '../middlewares/validacionUsuario.js';
 const router = Router()
 
 import {
@@ -14,19 +15,23 @@ import {
     nuevoPassword,
     detalleUsuario,
 } from "../controllers/usuario_controller.js";
+import verificarAutenticacion from '../middlewares/autenticacion.js'
+
+
+
 
 router.post("/login", login);
-router.post("/registro", registro);
+router.post('/registro',validacionUsuario,registro)
 router.get("/confirmar/:token", confirmEmail);
 router.get("/usuarios", listarUsuarios);
 router.get("/recuperar-password", recuperarPassword);
 router.get("/recuperar-password/:token", comprobarTokenPasword);
 router.post("/nuevo-password/:token", nuevoPassword);
 
-router.get("/perfil", perfil);
-router.put('/usuario/actualizarpassword',actualizarPassword)
-router.get("/usuario/:id", detalleUsuario);
-router.put("/usuario/:id", actualizarPerfil);
+router.get('/perfil',verificarAutenticacion,perfil)
+router.put('/usuario/actualizarpassword',verificarAutenticacion,actualizarPassword)
+router.get('/usuario/:id',verificarAutenticacion,detalleUsuario)
+router.put('/usuario/:id',verificarAutenticacion,actualizarPerfil)
 
 
 router.post('/login',(req,res)=>res.send("login"))
