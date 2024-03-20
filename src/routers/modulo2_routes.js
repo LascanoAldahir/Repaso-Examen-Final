@@ -1,13 +1,23 @@
 import {Router} from 'express'
+import {
+    actualizarModulo2,
+    detalleModulo2,
+    eliminarModulo2,
+    listarModulo2,
+    registrarModulo2,
+    loginModulo2,
+    perfilModulo2 
+} from "../controllers/modulo2_controller.js";
+import verificarAutenticacion from "../middlewares/autenticacion.js";
+
 const router = Router()
 
-
-router.post('/modulo2/login',(req,res)=>res.send("Login del paciente"))
-router.get('/modulo2/perfil',(req,res)=>res.send("Perfil del paciente"))
-router.get('/modulo2',(req,res)=>res.send("Listar pacientes"))
-router.get('/modulo2/:id',(req,res)=>res.send("Detalle del paciente"))
-router.post('/modulo2/registro',(req,res)=>res.send("Registrar paciente"))
-router.put('/modulo2/actualizar/:id',(req,res)=>res.send("Actualizar paciente"))
-router.delete('/modulo2/eliminar/:id',(req,res)=>res.send("Eliminar paciente"))
+router.post('/modulo2/login',loginModulo2)
+router.get('/modulo2/perfil',verificarAutenticacion,perfilModulo2)
+router.get('/modulo2',verificarAutenticacion,listarModulo2)
+router.get('/modulo2/:id',verificarAutenticacion,detalleModulo2)
+router.post('/modulo2/registro',verificarAutenticacion,registrarModulo2)
+router.put('/modulo2/actualizar/:id',verificarAutenticacion,actualizarModulo2)
+router.delete('/modulo2/eliminar/:id',verificarAutenticacion,eliminarModulo2)
 
 export default router
