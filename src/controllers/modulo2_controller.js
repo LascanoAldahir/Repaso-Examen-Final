@@ -1,4 +1,4 @@
-import { sendMailToModulo2 } from "../config/nodemailer.js"
+
 import Modulo2 from "../models/Modulo2.js"
 import mongoose from "mongoose"
 
@@ -42,19 +42,7 @@ const detalleModulo2 = async(req,res)=>{
     const modulo2 = await Modulo2.findById(id).select("-createdAt -updatedAt -__v").populate('veterinario','_id nombre apellido')
     res.status(200).json(modulo2)
 }
-const registrarModulo2 = async(req,res)=>{
-    const {email} = req.body
-    if (Object.values(req.body).includes("")) return res.status(400).json({msg:"Lo sentimos, debes llenar todos los campos"})
-    const verificarEmailBDD = await Modulo2.findOne({email})
-    if(verificarEmailBDD) return res.status(400).json({msg:"Lo sentimos, el email ya se encuentra registrado"})
-    const nuevoModulo2 = new Modulo2(req.body)
-    const password = Math.random().toString(36).slice(2)
-    nuevoModulo2.password = await nuevoModulo2.encrypPassword("vet"+password)
-    await sendMailToModulo2(email,"vet"+password)
-    nuevoModulo2.usuario=req.usuarioBDD._id
-    await nuevoModulo2.save()
-    res.status(200).json({msg:"Registro exitoso del modulo2 y correo enviado"})
-}
+
 const actualizarModulo2 = async(req,res)=>{
     const {id} = req.params
     if (Object.values(req.body).includes("")) return res.status(400).json({msg:"Lo sentimos, debes llenar todos los campos"})
@@ -76,7 +64,6 @@ export {
 		perfilModulo2, 
         listarModulo2,
         detalleModulo2,
-        registrarModulo2,
         actualizarModulo2,
         eliminarModulo2
     }
