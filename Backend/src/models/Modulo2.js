@@ -1,7 +1,19 @@
 import mongoose, {Schema,model} from 'mongoose'
-import bcrypt from "bcryptjs"
+
 
 const modulo2Schema = new Schema({
+
+    usuario:{
+        type:mongoose.Schema.Types.ObjectId,
+        ref:'Usuario'
+    },
+    tratamientos:[
+        {
+            type:mongoose.Schema.Types.ObjectId,
+            ref:'Tratamiento'
+        }
+    ],
+
     nombre:{
         type:String,
         require:true,

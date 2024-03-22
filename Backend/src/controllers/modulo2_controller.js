@@ -1,7 +1,7 @@
 
 import Modulo2 from "../models/Modulo2.js"
 import mongoose from "mongoose"
-
+import Modulo3 from "../models/Modulo3.js"
 const loginModulo2 =  async(req,res)=>{
     const {email,password} = req.body
     if (Object.values(req.body).includes("")) return res.status(404).json({msg:"Lo sentimos, debes llenar todos los campos"})
@@ -36,11 +36,15 @@ const listarModulo2 = async (req,res)=>{
     const modulos = await Modulo2.find({estado:true}).where('veterinario').equals(req.moduloBDD).select("-salida -createdAt -updatedAt -__v").populate('veterinario','_id nombre apellido')
     res.status(200).json(modulos)
 }
-const detalleModulo2 = async(req,res)=>{
+const detalleModulo2 =async(req,res)=>{
     const {id} = req.params
     if( !mongoose.Types.ObjectId.isValid(id) ) return res.status(404).json({msg:`Lo sentimos, no existe el veterinario ${id}`});
     const modulo2 = await Modulo2.findById(id).select("-createdAt -updatedAt -__v").populate('veterinario','_id nombre apellido')
-    res.status(200).json(modulo2)
+    const modulo3 = await Modulo3.find({estado:true}).where('paciente').equals(id)
+    res.status(200).json({
+        modulo2,
+        modulo3
+    })
 }
 
 const actualizarModulo2 = async(req,res)=>{

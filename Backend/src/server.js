@@ -4,6 +4,7 @@ import dotenv from 'dotenv'
 import cors from 'cors';
 import routerUsuarios from './routers/usuario_routes.js'
 import routerModulo2 from './routers/modulo2_routes.js'
+import routerModulo3 from './routers/modulo3_routes.js'
 
 // Inicializaciones
 const app = express()
@@ -21,6 +22,7 @@ app.use(express.json())
 // Rutas 
 app.use('/api',routerUsuarios)
 app.use('/api',routerModulo2)
+app.use('/api',routerModulo3)
 // Manejo de una ruta que no sea encontrada
 app.use((req,res)=>res.status(404).send("Endpoint no encontrado - 404"))
 
