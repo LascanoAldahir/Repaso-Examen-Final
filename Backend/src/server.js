@@ -11,7 +11,7 @@ const app = express()
 dotenv.config()
 
 // Configuraciones 
-app.set('port',process.env.port || 3000)
+app.set('PORT',process.env.port || 3000)
 app.use(cors())
 
 // Middlewares 
